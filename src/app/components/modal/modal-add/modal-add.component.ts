@@ -1,34 +1,35 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import {  NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NumberValidator } from '../validators/NumberVlidator';
-import { action, computed, observable, reaction, toJS } from 'mobx';
-import MainService from '../../../services/MainService';
+import { action,  observable } from 'mobx-angular';
+import { reaction } from 'mobx';
+import {MainService} from '../../../services/MainService';
 
 @Component ( {
     selector   : 'app-modal-add',
     templateUrl: './modal-add.component.html',
-    styleUrls  : [ './modal-add.component.css', '../modal.css' ],
+    styleUrls  : [  '../modal.css' ],
 } )
 export class ModalAddComponent implements OnInit {
     @Input () forEditing?: boolean = false;
     @Input () itemId?: string;
     
     closeResult: string;
-    @observable addItemForm: FormGroup;
+    addItemForm: FormGroup;
     @observable date: {
         year: string | number,
         day: string | number,
         month: string | number
-    } | null;
+    } | null = null;
     
-    @observable _initialValuesForEditing: any = '';
+     initialValuesForEditing: any = [];
     
-    @computed get initialValuesForEditing () {
-        return toJS ( this._initialValuesForEditing );
-    }
-    
-    @observable activeModal: NgbModalRef;
+    // @computed get initialValuesForEditing () {
+    //     return toJS ( this._initialValuesForEditing );
+    // }
+    //
+     activeModal: NgbModalRef;
     
     constructor ( private modalService: NgbModal, private formBuilder: FormBuilder, private mainService: MainService ) {
         reaction ( () => this.addItemForm, () => {
@@ -129,7 +130,7 @@ export class ModalAddComponent implements OnInit {
             private: boolean
         } ) {
         
-        this._initialValuesForEditing = { ...payload };
+        this.initialValuesForEditing = { ...payload };
         
         
         this.addItemForm = this.formBuilder.group ( {

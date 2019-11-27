@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
-import MainService from '../services/MainService';
+import { MainService } from '../services/MainService';
 import { ItemPayload } from '../../interfaces/PayloadTypes';
-import { computed, observable } from 'mobx-angular';
-import { action, reaction, toJS } from 'mobx';
+import { computed, observable, action } from 'mobx-angular';
+import { reaction, toJS } from 'mobx';
 import { MatSort, SortDirection } from '@angular/material';
 
 @Component ( {

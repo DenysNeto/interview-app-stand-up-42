@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import MainService from '../../../services/MainService';
-import { action, computed, observable, toJS } from 'mobx';
+import {MainService} from '../../../services/MainService';
+import { action, computed, observable,} from 'mobx-angular';
+import { toJS } from 'mobx';
 import { ItemDescriptionPayloadComponent } from '../../../../interfaces/PayloadTypes';
 
 @Component ( {
     selector       : 'app-modal-description',
     templateUrl    : './modal-description.component.html',
-    styleUrls      : [ './modal-description.component.css', '../modal.css' ],
+    styleUrls      : [  '../modal.css' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 } )
 export class ModalDescriptionComponent implements OnInit {

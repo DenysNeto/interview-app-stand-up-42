@@ -3,17 +3,26 @@ import { ItemDescriptionPayload, ItemPayload } from '../../interfaces/PayloadTyp
 import { action, computed, observable } from 'mobx';
 import { forEach, findIndex } from 'lodash';
 import { toJS } from 'mobx';
+import { Injectable } from '@angular/core';
 
 const DOMAIN   = 'map42.gear.host/api';
 const PROTOCOL = 'http://';
 
 const URL                      = `${PROTOCOL}${DOMAIN}`;
+
 // the number of .net ticks at the unix epoch
 const EPOCH_TICKS              = 621355968000000000;
 // there are 10000 .net ticks per millisecond
 const TICKS_PER_MILLIS: number = 10000;
 
-export default class MainService {
+
+@Injectable(
+    {
+        providedIn: 'root',
+    }
+    
+)
+export  class MainService {
     
     @observable _itemsArray: ItemPayload[] = [];
     
@@ -41,17 +50,14 @@ export default class MainService {
             }
         } );
         
-       
         this.itemsArray.splice ( temp, 1 );
         this.setItemArray ( this.itemsArray );
-        
     }
     
     @action
     async editItem ( id: string, payload: ItemDescriptionPayload ) {
         this.findByIdAndDelete ( id );
         await this.addNewItem ( payload, true, id );
-        
     }
     
     @action deleteItem ( id: string ) {
@@ -61,7 +67,6 @@ export default class MainService {
                 resolve ( response.statusText );
             } ).catch ( ( error ) => reject ( error ) );
         } );
-        
     }
     
     @action getDateFromServer ( date: number ) {

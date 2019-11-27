@@ -10,7 +10,7 @@ import { MobxAngularModule } from 'mobx-angular';
 //     AgmCoreModule,
 // } from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import MainService from './services/MainService';
+import {MainService} from './services/MainService';
 
 
 @NgModule ( {
@@ -32,7 +32,7 @@ import MainService from './services/MainService';
     
     ],
     exports     : [ MobxAngularModule ],
-    providers   : [ MainService, MobxAngularModule ],
+    providers   : [ ],
     bootstrap   : [ AppComponent ],
 } )
 export class AppModule {

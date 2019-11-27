@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { action } from 'mobx';
-import MainService from '../../../services/MainService';
+import { action } from 'mobx-angular';
+import {MainService} from '../../../services/MainService';
 
 @Component ( {
     selector   : 'app-modal-delete',
     templateUrl: './modal-delete.component.html',
-    styleUrls  : [ './modal-delete.component.css', '../modal.css' ],
+    styleUrls  : [  '../modal.css' ],
 } )
 export class ModalDeleteComponent {
     @Input () itemId: string;
@@ -18,12 +18,6 @@ export class ModalDeleteComponent {
     
     open ( content ) {
         this.activeModal  =   this.modalService.open ( content, { ariaLabelledBy: 'modal-edit-basic-title' } )
-        // .then ( ( result ) => {
-        //
-        //     this.closeResult = `Closed with: ${result}`;
-        // }, ( reason ) => {
-        //     this.closeResult = `Dismissed ${this.getDismissReason ( reason )}`;
-        // } );
     }
     
     private getDismissReason ( reason: any ): string {

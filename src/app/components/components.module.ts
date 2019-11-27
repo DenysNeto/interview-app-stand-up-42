@@ -20,8 +20,8 @@ import { MobxAngularModule } from 'mobx-angular';
 import { SpinnerComponent } from './modal/spinner/spinner.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-@NgModule({
-    imports: [
+@NgModule ( {
+    imports     : [
         CommonModule,
         RouterModule,
         NgbModule,
@@ -39,18 +39,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         FormsModule,
     
     ],
-  declarations: [
-    SidebarComponent,
-    ModalAddComponent,
-    ModalDeleteComponent,
-    ModalDescriptionComponent,
-    SpinnerComponent
-  ],
-    exports: [
+    declarations: [
         SidebarComponent,
         ModalAddComponent,
         ModalDeleteComponent,
         ModalDescriptionComponent,
+        SpinnerComponent,
     ],
-})
-export class ComponentsModule { }
+    exports     : [
+        SidebarComponent,
+        ModalAddComponent,
+        ModalDeleteComponent,
+        ModalDescriptionComponent,
+        MobxAngularModule,
+    ],
+} )
+export class ComponentsModule {
+}
