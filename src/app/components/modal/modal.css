@@ -1,0 +1,9 @@
+.modal_icon {
+    cursor: pointer;
+}
+
+.modal_icon:hover {
+    color: blue;
+}
+
+
