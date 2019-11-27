@@ -1,0 +1,91 @@
+<ng-template style='max-height: 95%' #content let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title" id="modal-title"><strong>{{forEditing ? 'Edit item' : 'Add item'}}</strong></h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form *ngIf="addItemForm" [formGroup]="addItemForm" (ngSubmit)="onSubmitUserDetails($event)">
+            <mat-form-field class="full-width">
+                <label>
+                    <input style='width:25rem' matInput placeholder="Name" formControlName="name">
+                </label>
+                <mat-error *ngFor="let validation of validation_error_messages.name">
+                    <mat-error class="error-message"
+                               *ngIf=" addItemForm.get('name').value && addItemForm.get('name').hasError(validation.type) && (addItemForm.get('name').dirty || addItemForm.get('name').touched)">{{validation.message}}</mat-error>
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field class="full-width">
+                <label>
+                    <input placeholder="Amount" matInput formControlName="amount">
+                </label>
+                <mat-error *ngFor="let validation of validation_error_messages.amount">
+                    <mat-error class="error-message"
+                               *ngIf=" addItemForm.get('amount').value && addItemForm.get('amount').hasError(validation.type) && (addItemForm.get('amount').dirty || addItemForm.get('amount').touched)">{{validation.message}}</mat-error>
+                </mat-error>
+            </mat-form-field>
+            
+            <div style='display:flex; flex-direction: column; margin-top:13px' class="input-group">
+                <label
+                    style='color: rgb(170, 170, 170); font-weight: 400;font-size:17px; font-family:"Roboto", "Helvetica", "Arial", sans-serif'>
+                    Date (yyyy-mm-dd)
+                </label>
+                
+                <div style='display:flex; flex-direction:row'>
+                    <input placeholder="yyyy-mm-dd" (click)="d.toggle()"
+                           ngbDatepicker formControlName='date' #d="ngbDatepicker">
+                    
+                    <div class="input-group-append">
+                        <button (click)="d.toggle()" class="calendar" type="button">
+                            <mat-icon style='padding-top:.5rem'>today</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style='margin-top:13px'>
+                <label
+                    style='color: rgb(170, 170, 170); font-weight: 400;font-size:17px; font-family:"Roboto", "Helvetica", "Arial", sans-serif'>
+                    Description</label>
+                <textarea class="form-control" name="description" formControlName="description"
+                          style="border: 1px solid #bdbdbd; padding-top: 1rem ; padding-left: 1rem; width:100%"
+                          placeholder='Description...' rows="3"></textarea>
+            </div>
+            
+            <div style='margin-top:23px; margin-bottom:23px'>
+                <mat-checkbox formControlName='private' class="form-control">
+                    <p style='color: rgb(170, 170, 170); margin-bottom:0; font-weight: 400;font-size:17px; font-family:"Roboto", "Helvetica", "Arial", sans-serif'>
+                        Private </p>
+                </mat-checkbox>
+            </div>
+            
+            <div style='width:100%; display:flex; justify-content:flex-end'>
+                <button class="btn btn-outline-dark" mat-raised-button type="submit"
+                        [disabled]="!dataChangeDetection()">
+                    Submit
+                    <mat-icon style='line-height:1.2'>done_outline</mat-icon>
+                </button>
+                
+                <button (click)="modal.close()" style='margin-left:.5rem' class="btn btn-outline-dark"
+                        mat-raised-button>
+                    Cancel
+                    <mat-icon style='line-height:1.2'>not_interested</mat-icon>
+                </button>
+            </div>
+        
+        </form>
+    </div>
+</ng-template>
+
+<button *ngIf='!forEditing ; else edit' type="button" class="btn btn-outline-dark" (click)="open(content)">
+    Add item
+    <mat-icon style="line-height:1.2">control_point</mat-icon>
+</button>
+
+<ng-template #edit>
+    <mat-icon class='modal_icon' (click)="open(content)">edit</mat-icon>
+</ng-template>
+
+

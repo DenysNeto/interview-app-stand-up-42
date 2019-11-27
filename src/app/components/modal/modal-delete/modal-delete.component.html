@@ -1,0 +1,26 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title" id="modal-basic-title">Delete Confirmation</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <div class='modal-body'>
+        <p>Confirm delete action</p>
+    </div>
+    
+    <div class="modal-footer">
+        <button type="button" mat-raised-button class="btn btn-outline-dark"  (click)=" deleteItem()">
+            Delete
+            <mat-icon style='line-height:1.2'>delete</mat-icon>
+        </button>
+        <button (click)="modal.close()" style='margin-left:.5rem' class="btn btn-outline-dark"
+                mat-raised-button>
+            Cancel
+            <mat-icon style='line-height:1.2'>not_interested</mat-icon>
+        </button>
+    </div>
+</ng-template>
+
+<mat-icon class='modal_icon' (click)="open(content)">delete</mat-icon>

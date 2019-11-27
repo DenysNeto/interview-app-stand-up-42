@@ -1,0 +1,89 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h2 class="modal-title" id="modal-basic-title">Item details</h2>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngIf='item ; else spinner' class="modal-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead class=" text-primary">
+                    <tr>
+                        <th>
+                            Property
+                        </th>
+                        <th>
+                            Value
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Name</td>
+                        <td *ngIf='item.name; else name_template'>
+                            {{item.name}}
+                        </td>
+                        <ng-template #name_template>
+                            <td>
+                                <mat-icon style='padding-top:1.5rem; padding-left:.5rem '>maximize</mat-icon>
+                            </td>
+                        </ng-template>
+                    </tr>
+                    
+                    <tr>
+                        <td>Description</td>
+                        <td style=" white-space:pre-line"
+                            *ngIf='item.description; else description_template'>
+                            {{item.description}}
+                        </td>
+                        <ng-template #description_template>
+                            <td>
+                                <mat-icon style='padding-top:1.5rem; padding-left:1.5rem'>maximize</mat-icon>
+                            </td>
+                        </ng-template>
+                    </tr>
+                    
+                    <tr>
+                        <td>Amount</td>
+                        <td>
+                            {{item.amount}}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Date</td>
+                        <td>
+                            {{item.date}}
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td>Private</td>
+                        <td *ngIf='item.isPrivate; else falser'>
+                            <mat-icon>check_circle</mat-icon>
+                        </td>
+                        <ng-template #falser>
+                            <td style='padding-top:1.5rem'>
+                                <mat-icon>highlight_off</mat-icon>
+                            </td>
+                        </ng-template>
+                    </tr>
+                </tbody>
+            </table>
+        
+        </div>
+    </div>
+    <ng-template #spinner>
+        <modal-spinner></modal-spinner>
+    </ng-template>
+    
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')"> Cancel
+            <mat-icon style='line-height:1.2'>not_interested</mat-icon>
+        </button>
+    </div>
+</ng-template>
+
+<mat-icon class='modal_icon' (click)="open(content)">description</mat-icon>
+
