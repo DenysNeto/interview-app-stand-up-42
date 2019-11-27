@@ -6,7 +6,7 @@ import { toJS } from 'mobx';
 import { Injectable } from '@angular/core';
 
 const DOMAIN   = 'map42.gear.host/api';
-const PROTOCOL = 'http://';
+const PROTOCOL = 'https://';
 
 const URL                      = `${PROTOCOL}${DOMAIN}`;
 
