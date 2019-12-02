@@ -1,44 +1,40 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {  NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NumberValidator } from '../validators/NumberVlidator';
-import { action,  observable } from 'mobx-angular';
+import { action, observable } from 'mobx-angular';
 import { reaction } from 'mobx';
-import {MainService} from '../../../services/MainService';
+import { MainService } from '../../../services/MainService';
+
+
 
 @Component ( {
     selector   : 'app-modal-add',
     templateUrl: './modal-add.component.html',
-    styleUrls  : [  '../modal.css' ],
+    styleUrls  : [ '../modal.css' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    
+    
+    
 } )
 export class ModalAddComponent implements OnInit {
     @Input () forEditing?: boolean = false;
     @Input () itemId?: string;
-    
-    closeResult: string;
-    addItemForm: FormGroup;
+    @observable addItemForm: FormGroup;
     @observable date: {
         year: string | number,
         day: string | number,
         month: string | number
-    } | null = null;
+    } | null                       = null;
     
-     initialValuesForEditing: any = [];
-    
-    // @computed get initialValuesForEditing () {
-    //     return toJS ( this._initialValuesForEditing );
-    // }
-    //
-     activeModal: NgbModalRef;
+    @observable initialValuesForEditing: any = [];
+    @observable  activeModal: NgbModalRef;
     
     constructor ( private modalService: NgbModal, private formBuilder: FormBuilder, private mainService: MainService ) {
         reaction ( () => this.addItemForm, () => {
-            if(this.addItemForm)
-            {
+            if ( this.addItemForm && this.forEditing ) {
                 this.dataChangeDetection ();
             }
-            
-           
         } );
     }
     
@@ -67,9 +63,11 @@ export class ModalAddComponent implements OnInit {
             let temp = 0;
             for ( let key in this.initialValuesForEditing ) {
                 if ( key === 'date' ) {
-                    if ( this.initialValuesForEditing[ key ].day == this.addItemForm.get ( key ).value.day &&
+                    if ( this.initialValuesForEditing[ key ] && this.initialValuesForEditing[ key ].day == this.addItemForm.get ( key ).value.day &&
                         this.initialValuesForEditing[ key ].month == this.addItemForm.get ( key ).value.month &&
                         this.initialValuesForEditing[ key ].year == this.addItemForm.get ( key ).value.year ) {
+                        temp += 0;
+                    } else if ( !this.initialValuesForEditing[ key ] ) {
                         temp += 0;
                     } else {
                         temp += 1;
@@ -83,30 +81,15 @@ export class ModalAddComponent implements OnInit {
         } else {
             return this.addItemForm.valid;
         }
-        
-        // name       : this.addItemForm.get ( 'name' ).value,
-        //     description: this.addItemForm.get ( 'description' ).value,
-        //     amount     : this.addItemForm.get ( 'amount' ).value,
-        //     isPrivate  : this.addItemForm.get ( 'private' ).value,
-        //     let temp_date = this.addItemForm.get ( 'date' ).value;
-        
-    }
-    
-    @action submitDisable () {
-        
-        // JSON.stringify ( this.initialValuesForEditing) === JSON.stringify ( obj2 );
-        
     }
     
     @action createForm () {
         this.addItemForm = this.formBuilder.group ( {
             name       : new FormControl ( '', Validators.compose ( [
                 Validators.maxLength ( 100 ),
-                
                 Validators.required,
             ] ) ),
             amount     : new FormControl ( '', Validators.compose ( [
-                // NumberValidator.integer (),
                 Validators.maxLength ( 6 ),
                 NumberValidator.validInteger,
             ] ) ),
@@ -132,7 +115,6 @@ export class ModalAddComponent implements OnInit {
         
         this.initialValuesForEditing = { ...payload };
         
-        
         this.addItemForm = this.formBuilder.group ( {
             name       : new FormControl ( payload.name, Validators.compose ( [
                 Validators.maxLength ( 100 ),
@@ -140,7 +122,6 @@ export class ModalAddComponent implements OnInit {
                 Validators.required,
             ] ) ),
             amount     : new FormControl ( payload.amount, Validators.compose ( [
-                // NumberValidator.integer (),
                 Validators.maxLength ( 6 ),
                 NumberValidator.validInteger,
             ] ) ),
@@ -153,7 +134,7 @@ export class ModalAddComponent implements OnInit {
         this.dataChangeDetection ();
     }
     
-    open ( content ) {
+   @action open ( content ) {
         if ( this.forEditing ) {
             this.mainService.getItemById ( this.itemId ).then ( ( response: any ) => {
                 let date_temp = response.Date && this.mainService.getDateFromServer ( response.Date );
@@ -172,6 +153,8 @@ export class ModalAddComponent implements OnInit {
                 } );
                 
                 this.activeModal = this.modalService.open ( content, { ariaLabelledBy: 'modal-edit-basic-title' } );
+            } ).catch ( ( error ) => {
+                console.log ( '[c] error Component', error );
             } );
         } else {
             this.createForm ();
@@ -180,7 +163,7 @@ export class ModalAddComponent implements OnInit {
         
     }
     
-    async onSubmitUserDetails ( e ) {
+ @action   async onSubmitUserDetails ( e ) {
         e.preventDefault ();
         let temp_date = this.addItemForm.get ( 'date' ).value;
         let date: any = null;

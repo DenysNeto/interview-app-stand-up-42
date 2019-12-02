@@ -10,6 +10,9 @@ export const AdminLayoutRoutes: Routes = [
             } ],
         },*/
     // { path: '', component: TableListComponent },
-    { path: 'table-list', component: TableListComponent },
+    
+    
     // table-list
+    { path: 'table-list', component: TableListComponent },
+   
 ];

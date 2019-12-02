@@ -8,21 +8,19 @@ import { Injectable } from '@angular/core';
 const DOMAIN   = 'map42.gear.host/api';
 const PROTOCOL = 'https://';
 
-const URL                      = `${PROTOCOL}${DOMAIN}`;
+const URL = `${PROTOCOL}${DOMAIN}`;
 
 // the number of .net ticks at the unix epoch
 const EPOCH_TICKS              = 621355968000000000;
 // there are 10000 .net ticks per millisecond
 const TICKS_PER_MILLIS: number = 10000;
 
-
-@Injectable(
+@Injectable (
     {
         providedIn: 'root',
-    }
-    
+    },
 )
-export  class MainService {
+export class MainService {
     
     @observable _itemsArray: ItemPayload[] = [];
     
@@ -65,7 +63,12 @@ export  class MainService {
             axios.delete ( `${URL}/Entity/${id}` ).then ( ( response ) => {
                 this.findByIdAndDelete ( id );
                 resolve ( response.statusText );
-            } ).catch ( ( error ) => reject ( error ) );
+            } ).catch ( ( error ) => {
+                console.log ( '[c] error deleteItem [DELETE]', error );
+                alert ( error.message );
+                reject ( error );
+            } );
+            
         } );
     }
     
@@ -113,6 +116,8 @@ export  class MainService {
                     resolve ( response.data );
                 }) )
                 .catch ( ( error ) => {
+                    console.log ( '[c] error addNewItem [PUT]', error );
+                    alert ( error.message );
                     reject ( error );
                 } );
                 //ADD action
@@ -133,6 +138,8 @@ export  class MainService {
                     resolve ( response.data );
                 }) )
                 .catch ( ( error ) => {
+                    console.log ( '[c] error addNewItem [POST]', error );
+                    alert ( error.message );
                     reject ( error );
                 } );
             }
@@ -144,8 +151,12 @@ export  class MainService {
             axios.get ( `${URL}/Entity/${id}` ).then ( ( response ) => {
                 resolve ( response.data );
                 
-            } ).catch ( ( error ) =>
-                reject ( error ) );
+            } ).catch ( ( error ) => {
+                console.log ( '[c] error getItemById [GET] ', error );
+                alert ( error.message );
+                reject ( error );
+            } );
+            
         } );
         
     }
@@ -178,7 +189,9 @@ export  class MainService {
                     resolve ();
                     
                 },
-            ).catch ( ( error ) => {
+            ).catch ( ( error: Error ) => {
+                console.log ( '[c] error getAllItems', error );
+                alert ( error.message );
                 reject ( error );
             } );
             

@@ -88,7 +88,7 @@ export class TableListComponent implements OnInit {
                 
                 this._sorted_list    = this.sorted_list.sort ( ( a, b ) => this.compare ( new Date ( a.date ).getTime (), new Date ( b.date ).getTime (), true ) );
                 this.isSortingActive = true;
-                //sort from min to max
+                //sort from max to min
             } else if ( this.currentSort.direction === 'desc' ) {
                 
                 this._sorted_list    = this.sorted_list.sort ( ( a, b ) => this.compare ( new Date ( a.date ).getTime (), new Date ( b.date ).getTime (), false ) );

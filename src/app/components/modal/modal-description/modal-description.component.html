@@ -1,4 +1,4 @@
-<ng-template #content let-modal>
+<ng-template   #content let-modal>
     <div class="modal-header">
         <h2 class="modal-title" id="modal-basic-title">Item details</h2>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -6,7 +6,7 @@
         </button>
     </div>
     <div *ngIf='item ; else spinner' class="modal-body">
-        <div class="table-responsive">
+        <div  *mobxAutorun class="table-responsive">
             <table class="table">
                 <thead class=" text-primary">
                     <tr>
@@ -71,7 +71,6 @@
                     </tr>
                 </tbody>
             </table>
-        
         </div>
     </div>
     <ng-template #spinner>
