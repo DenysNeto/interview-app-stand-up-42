@@ -50,7 +50,7 @@ export class ModalDescriptionComponent implements OnInit {
             name       : temp.Name,
             description: this.descriptionApearence ( temp.Description ),
             amount     : temp.Amount,
-            date       : this.mainService.getDateFormatted ( this.mainService.getDateFromServer ( temp.Date ) ),
+            date       : temp.Date ? this.mainService.getDateFormatted ( this.mainService.getDateFromServer ( temp.Date ) ) : null,
             isPrivate  : temp.IsPrivate,
             
         };
