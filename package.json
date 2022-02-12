@@ -32,7 +32,7 @@
     "@angular/router": "8.0.0",
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
     "@types/axios": "^0.14.0",
-    "ajv": "6.10.0",
+    "ajv": "6.12.3",
     "angular-cli-ghpages": "^0.6.0",
     "arrive": "2.4.1",
     "axios": "^0.19.0",
